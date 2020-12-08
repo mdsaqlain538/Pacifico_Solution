@@ -3,6 +3,25 @@ const {validationResult } = require('express-validator');
 var jwt = require('jsonwebtoken');
 var expressJwt = require('express-jwt');
 
+// Import the installed modules.
+const express = require('express');
+const responseTime = require('response-time')
+const axios = require('axios');
+const redis = require('redis');
+
+const app = express();
+
+// create and connect redis client to local instance.
+const client = redis.createClient();
+
+// Print redis errors to the console
+client.on('error', (err) => {
+  console.log("Error " + err);
+});
+
+// use response-time as a middleware
+app.use(responseTime());
+
 
 exports.signup = (req, res) => {
     const errors = validationResult(req);
@@ -55,4 +74,16 @@ exports.signup = (req, res) => {
     });
   }
 
-
+exports.login = (req,res) =>{ 
+  return client.get('UsersData',(err,result)=>{
+    if(result){
+      return res.json(result);
+    }else{
+      User.find({},(err,users)=>{
+        const responseJSON = users;
+        client.setex('UsersData',60,JSON.stringify({ source: 'Redis Cache', ...responseJSON, }));
+        return res.json(users);
+      })
+    }
+  })
+}
