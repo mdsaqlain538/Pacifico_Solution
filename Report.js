@@ -13,3 +13,11 @@
 //SignIn module also done.
 
 //Both the above methods have be cross checked by using postman.
+
+
+
+
+//Date --> Dec -8 -2020
+
+//MongoDB Deployment Done.
+//Redis Implemented.
