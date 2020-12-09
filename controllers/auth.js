@@ -14,7 +14,7 @@ const app = express();
 // create and connect redis client to local instance.
 const client = redis.createClient();
 
-// Print redis errors to the console
+//Print redis errors to the console
 client.on('error', (err) => {
   console.log("Error " + err);
 });
@@ -29,7 +29,7 @@ exports.signup = (req, res) => {
     if (!errors.isEmpty()) {
       return res.status(422).json(errors);
     }
-  
+   
     const user = new User(req.body);
     user.save((err, user) => {
       if (err) {

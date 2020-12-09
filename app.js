@@ -17,7 +17,7 @@ const authRoutes = require('./routes/auth');
 
 
 //Env Port
-const port = process.env.PORT || 1519;
+const port = process.env.PORT || 8080;
 
 //MongoDB connection..
 const mongoose = require('mongoose');
@@ -31,6 +31,10 @@ useCreateIndex:true
 
 //Routes Entry.. 
 app.use('/api',authRoutes);
+
+app.get('/',(req,res)=>{
+  res.send('Application has been Deployed on Google App Engine Sucessfully.');
+})
 
 app.listen(port, () => {
   console.log(`Pacifico app listening at http://localhost:${port}`)
